@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOUCH - Tutorial de Como Usar</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      text-align: center;
+      margin: 30px 0;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h2 {
+      font-size: 1.5em;
+      color: #a855f7;
+      margin: 30px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #a855f733;
+    }
+    h3 {
+      font-size: 1.2em;
+      color: #ec4899;
+      margin: 20px 0 10px;
+    }
+    p { margin: 10px 0; }
+    .card {
+      background: #1a1a2e;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    .card-green {
+      background: #0a2e1a;
+      border-color: #22c55e44;
+    }
+    .card-blue {
+      background: #0a1a2e;
+      border-color: #3b82f644;
+    }
+    .card-yellow {
+      background: #2e2a0a;
+      border-color: #eab30844;
+    }
+    .card-red {
+      background: #2e0a0a;
+      border-color: #ef444444;
+    }
+    .step {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0;
+      align-items: flex-start;
+    }
+    .step-number {
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .emoji { font-size: 1.5em; margin-right: 8px; }
+    .highlight {
+      background: #a855f722;
+      border: 1px solid #a855f744;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+      color: #c084fc;
+    }
+    .warning {
+      background: #eab30822;
+      border: 1px solid #eab30844;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .success {
+      background: #22c55e22;
+      border: 1px solid #22c55e44;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .info-box {
+      background: #3b82f622;
+      border: 1px solid #3b82f644;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .big-emoji {
+      font-size: 4em;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .diagram {
+      background: #111;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin: 20px 0;
+      font-size: 0.9em;
+    }
+    .diagram-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+    .diagram-item {
+      background: #1a1a2e;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 0.85em;
+    }
+    .diagram-arrow {
+      color: #a855f7;
+      font-size: 1.5em;
+      margin: 5px 0;
+    }
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    .btn-link {
+      display: inline-block;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin: 10px 5px;
+      text-decoration: none;
+    }
+    .btn-link:hover {
+      opacity: 0.9;
+      text-decoration: none;
+    }
+    .toc {
+      background: #1a1a2e;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .toc a {
+      display: block;
+      padding: 8px 0;
+      border-bottom: 1px solid #333;
+      color: #c084fc;
+    }
+    .toc a:last-child { border-bottom: none; }
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #a855f733, transparent);
+      margin: 40px 0;
+    }
+    code {
+      background: #111;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #f472b6;
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+    @media (max-width: 500px) {
+      .comparison { grid-template-columns: 1fr; }
+      h1 { font-size: 2em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <div class="big-emoji">👆</div>
+    <h1>TOUCH - Tutorial Completo</h1>
+    
+    <p style="text-align: center; font-size: 1.2em; color: #999; margin-bottom: 30px;">
+      Guia passo a passo para leigos
+    </p>
+
+    <!-- O QUE É -->
+    <div class="info-box">
+      <h3>🤔 O que é o Touch?</h3>
+      <p>O Touch é um <strong>site online</strong> (não é um app que você baixa na loja). 
+      Ele funciona no <strong>navegador do celular</strong> (Chrome, Safari, etc).</p>
+      <p>Vários celulares se conectam pela internet e um jogo de reflexo acontece entre eles: 
+      luz pisca, som toca, e você tem que tocar na tela para parar!</p>
+    </div>
+
+    <!-- SUMÁRIO -->
+    <div class="toc">
+      <h3>📋 Índice</h3>
+      <a href="#como-funciona">1. Como funciona (entenda antes)</a>
+      <a href="#colocar-online">2. Como colocar online (deploy)</a>
+      <a href="#como-jogar">3. Como jogar (na prática)</a>
+      <a href="#dicas">4. Dicas e problemas comuns</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COMO FUNCIONA -->
+    <h2 id="como-funciona">🎮 1. Como Funciona</h2>
+
+    <div class="card">
+      <h3>📱 É um SITE, não um app</h3>
+      <p>Você <strong>NÃO</strong> baixa da Play Store ou App Store.</p>
+      <p>Você acessa por um <strong>link</strong> (endereço) no navegador do celular.</p>
+      <p>Pense assim: é igual acessar o Instagram pelo site — funciona no navegador!</p>
+    </div>
+
+    <div class="card-blue">
+      <h3>🏗️ Como funciona a conexão?</h3>
+      <div class="diagram">
+        <div class="diagram-row">
+          <div class="diagram-item">📱 Celular 1<br><small>(Mestre)</small></div>
+        </div>
+        <div class="diagram-arrow">↕️</div>
+        <div class="diagram-row">
+          <div class="diagram-item">📱 Celular 2<br><small>(Jogador)</small></div>
+          <div class="diagram-item">📱 Celular 3<br><small>(Jogador)</small></div>
+          <div class="diagram-item">📱 Celular 4<br><small>(Jogador)</small></div>
+        </div>
+      </div>
+      <p style="text-align: center; color: #999; font-size: 0.9em;">
+        Todos conectados pela internet via código da sala
+      </p>
+    </div>
+
+    <div class="card-yellow">
+      <h3>⚠️ Importante entender:</h3>
+      <p>Para funcionar, o site precisa estar <strong>online</strong> (hospedado em algum lugar da internet). 
+      É isso que o "deploy" faz — coloca seu código num servidor para qualquer pessoa acessar pelo link.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COMO COLOCAR ONLINE -->
+    <h2 id="colocar-online">🚀 2. Como Colocar Online</h2>
+
+    <div class="warning">
+      <p><strong>🎯 Você tem 2 opções:</strong></p>
+      <p><strong>Opção A (FÁCIL):</strong> Pedir para alguém técnico fazer o deploy pra você</p>
+      <p><strong>Opção B (FAÇA VOCÊ):</strong> Seguir os passos abaixo — leva uns 10 minutos</p>
+    </div>
+
+    <h3>🅰️ Opção A: Peça ajuda</h3>
+    <div class="card">
+      <p>Se você tem um amigo que sabe programar, peça pra ele:</p>
+      <p>1. Baixar os arquivos deste projeto</p>
+      <p>2. Subir no seu repositório <span class="highlight">github.com/SEU_USUARIO/touch</span></p>
+      <p>3. Fazer deploy na Vercel</p>
+      <p>4. Te passar o link final</p>
+    </div>
+
+    <h3>🅱️ Opção B: Faça você mesmo (passo a passo)</h3>
+
+    <div class="card-green">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>📥 Baixar os arquivos</h3>
+          <p>Como os arquivos estão aqui neste ambiente, você precisa baixá-los.</p>
+          <p><strong>Como:</strong> Copie o conteúdo de cada arquivo e crie no seu computador.</p>
+          <p style="color: #999; font-size: 0.9em;">💡 Dica: Use o bloco de notas (Windows) ou TextEdit (Mac) para criar cada arquivo.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-green">
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>📁 Criar a pasta no computador</h3>
+          <p>Crie uma pasta chamada <span class="highlight">touch</span> no seu computador.</p>
+          <p>Dentro dela, crie estas sub-pastas:</p>
+          <p><code>src/components/</code>, <code>src/hooks/</code>, <code>src/utils/</code></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-green">
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>📤 Subir no GitHub</h3>
+          <p>Vá em <a href="https://github.com" target="_blank">github.com</a> → seu repositório <strong>touch</strong></p>
+          <p>Clique em <strong>"Add file"</strong> → <strong>"Upload files"</strong></p>
+          <p>Arraste todos os arquivos da pasta para lá</p>
+          <p>Clique em <strong>"Commit changes"</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-green">
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>🌐 Publicar na Vercel (GRÁTIS)</h3>
+          <p>Acesse <a href="https://vercel.com" target="_blank">vercel.com</a></p>
+          <p>Clique em <strong>"Sign Up"</strong> → entre com sua conta do <strong>GitHub</strong></p>
+          <p>Clique em <strong>"Add New..."</strong> → <strong>"Project"</strong></p>
+          <p>Procure o repositório <strong>"touch"</strong> e clique em <strong>"Import"</strong></p>
+          <p>Clique em <strong>"Deploy"</strong></p>
+          <p>⏳ Espere 1-2 minutos...</p>
+          <p>✅ Pronto! Você terá um link tipo: <span class="highlight">touch-xxxx.vercel.app</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="success">
+      <p><strong>🎉 RESULTADO:</strong> Depois do deploy, você terá um <strong>link</strong> que pode abrir em QUALQUER celular!</p>
+      <p>Exemplo: <code>https://touch-seu-nome.vercel.app</code></p>
+      <p>Abra esse link em 2 ou mais celulares e o jogo funciona!</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COMO JOGAR -->
+    <h2 id="como-jogar">🎯 3. Como Jogar (na prática)</h2>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <p>Abra o <strong>link do site</strong> no navegador de todos os celulares</p>
+          <p>(Chrome no Android, Safari no iPhone)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <p>Em <strong>UM</strong> celular, clique em <strong>"Criar Sala (Mestre)"</strong></p>
+          <p>Vai aparecer um <strong>código de 6 letras</strong>, tipo: <span class="highlight">A3K9B2</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <p>Nos <strong>OUTROS</strong> celulares, clique em <strong>"Entrar como Jogador"</strong></p>
+          <p>Digite o <strong>mesmo código</strong> que apareceu no mestre</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <p>No celular <strong>Mestre</strong>, você verá a lista de quem conectou</p>
+          <p>Escolha o <strong>modo</strong>: 👆 Toque ou 👇 Segurar</p>
+          <p>Clique no <strong>jogador</strong> que você quer ativar!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-red">
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <p>O celular do jogador vai <strong>PISCAR VERMELHO</strong> 🔴 e fazer <strong>BARULHO</strong> 🔊</p>
+          <p>O jogador precisa <strong>TOCAR</strong> na tela (ou <strong>SEGURAR</strong> por 2s) para parar!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison">
+      <div class="card" style="margin: 0;">
+        <h3 style="text-align: center;">👆 Modo Toque</h3>
+        <p style="text-align: center;">Toque 1 vez na tela<br>para parar a luz</p>
+        <p style="text-align: center; font-size: 2em;">👆</p>
+      </div>
+      <div class="card" style="margin: 0;">
+        <h3 style="text-align: center;">👇 Modo Segurar</h3>
+        <p style="text-align: center;">Segure o dedo na tela<br>por 2 segundos</p>
+        <p style="text-align: center; font-size: 2em;">👇⏱️</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- DICAS -->
+    <h2 id="dicas">💡 4. Dicas e Problemas Comuns</h2>
+
+    <div class="warning">
+      <h3>❌ "Não conecta" / "Mestre não encontrado"</h3>
+      <p>• Verifique se o <strong>código</strong> está correto (6 letras, sem espaços)</p>
+      <p>• O <strong>Mestre</strong> precisa estar com a página aberta</p>
+      <p>• Todos precisam ter <strong>internet</strong></p>
+    </div>
+
+    <div class="warning">
+      <h3>❌ "Não tem som"</h3>
+      <p>• Aumente o <strong>volume</strong> do celular</p>
+      <p>• No iPhone, verifique se não está no <strong>modo silencioso</strong></p>
+      <p>• Alguns navegadores bloqueiam som — toque na tela primeiro</p>
+    </div>
+
+    <div class="warning">
+      <h3>❌ "A tela não responde ao toque"</h3>
+      <p>• Certifique-se de que está tocando <strong>direto na tela</strong></p>
+      <p>• Remova películas muito grossas se necessário</p>
+      <p>• Recarregue a página (puxe pra baixo e solte)</p>
+    </div>
+
+    <div class="success">
+      <h3>✅ Dicas para aproveitar mais:</h3>
+      <p>• Use o <strong>Modo Auto</strong> no Mestre para ciclar automaticamente entre jogadores</p>
+      <p>• Teste primeiro com o <strong>Modo Demo</strong> (sozinho) para entender o jogo</p>
+      <p>• Funciona melhor com <strong>2 a 6 celulares</strong></p>
+      <p>• Todos devem estar no <strong>mesmo Wi-Fi</strong> para melhor performance</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-blue" style="text-align: center;">
+      <h3>🔗 Links Úteis</h3>
+      <p><a href="https://github.com" target="_blank">GitHub</a> — onde você sobe o código</p>
+      <p><a href="https://vercel.com" target="_blank">Vercel</a> — onde você publica o site</p>
+      <p><a href="https://peerjs.com" target="_blank">PeerJS</a> — tecnologia de conexão usada</p>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0; color: #666;">
+      <p>Feito com ❤️ para diversão em grupo</p>
+      <p style="font-size: 0.8em; margin-top: 10px;">TOUCH — Jogo de Reflexo Multiplayer</p>
+    </div>
+
+  </div>
+</body>
+</html>

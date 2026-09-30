@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOUCH - Como Colocar no GitHub (Passo a Passo)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin: 20px 0;
+      color: #58a6ff;
+    }
+    h2 {
+      color: #f0883e;
+      margin: 30px 0 15px;
+      padding: 10px 15px;
+      background: #161b22;
+      border-radius: 8px;
+      border-left: 4px solid #f0883e;
+    }
+    h3 { color: #7ee787; margin: 15px 0 10px; }
+    
+    p { margin: 10px 0; color: #c9d1d9; }
+    
+    .step-box {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .step-num {
+      background: linear-gradient(135deg, #238636, #2ea043);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2em;
+      flex-shrink: 0;
+    }
+    .step-title { font-size: 1.2em; font-weight: bold; }
+    
+    .file-card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .file-header {
+      background: #161b22;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #30363d;
+    }
+    .file-name {
+      font-family: monospace;
+      color: #58a6ff;
+      font-size: 0.9em;
+    }
+    .file-path {
+      color: #8b949e;
+      font-size: 0.8em;
+    }
+    .copy-btn {
+      background: #238636;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: #2ea043; }
+    .copy-btn.copied { background: #1f6feb; }
+    
+    .file-content {
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8em;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 200px;
+      overflow-y: auto;
+      color: #c9d1d9;
+      line-height: 1.5;
+    }
+    
+    .expand-btn {
+      background: none;
+      border: 1px solid #30363d;
+      color: #58a6ff;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8em;
+      margin: 5px 15px 10px;
+    }
+    .expand-btn:hover { background: #161b22; }
+    
+    .folder-tree {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 0.9em;
+      margin: 15px 0;
+      line-height: 2;
+    }
+    .folder-tree .folder { color: #58a6ff; }
+    .folder-tree .file { color: #c9d1d9; }
+    .folder-tree .new { color: #f0883e; font-weight: bold; }
+    
+    .warning {
+      background: #3d2800;
+      border: 1px solid #9e6a03;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .warning::before { content: "⚠️ "; }
+    
+    .success {
+      background: #0d2818;
+      border: 1px solid #238636;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .success::before { content: "✅ "; }
+    
+    .tip {
+      background: #0c2d6b;
+      border: 1px solid #1f6feb;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .tip::before { content: "💡 "; }
+    
+    a { color: #58a6ff; }
+    
+    .big-btn {
+      display: block;
+      background: linear-gradient(135deg, #238636, #2ea043);
+      color: white;
+      text-align: center;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin: 15px 0;
+      transition: transform 0.2s;
+    }
+    .big-btn:hover { transform: scale(1.02); }
+    
+    .big-btn-blue {
+      background: linear-gradient(135deg, #1f6feb, #388bfd);
+    }
+    
+    .screenshot-placeholder {
+      background: #161b22;
+      border: 2px dashed #30363d;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      margin: 10px 0;
+      color: #8b949e;
+    }
+    
+    .divider {
+      height: 1px;
+      background: #30363d;
+      margin: 30px 0;
+    }
+    
+    .toc {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .toc a {
+      display: block;
+      padding: 8px 0;
+      color: #58a6ff;
+      text-decoration: none;
+      border-bottom: 1px solid #21262d;
+    }
+    .toc a:last-child { border-bottom: none; }
+    .toc a:hover { color: #79c0ff; }
+    
+    .progress-bar {
+      background: #21262d;
+      border-radius: 10px;
+      height: 8px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #238636, #2ea043, #7ee787);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s;
+    }
+    
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid #21262d;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .checklist li::before {
+      content: "☐";
+      font-size: 1.2em;
+      color: #8b949e;
+    }
+    .checklist li.done::before {
+      content: "☑";
+      color: #238636;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h1>👆 TOUCH<br><small style="color: #8b949e; font-size: 0.5em;">Guia para colocar no GitHub</small></h1>
+    
+    <div class="tip">
+      <strong>Resumo rápido:</strong> Você vai criar os arquivos no GitHub (copiar e colar) e depois publicar na Vercel. Tudo grátis!
+    </div>
+
+    <div class="toc">
+      <strong>📋 O que você vai fazer:</strong>
+      <a href="#passo1">Passo 1: Abrir o GitHub</a>
+      <a href="#passo2">Passo 2: Criar os arquivos (copiar e colar)</a>
+      <a href="#passo3">Passo 3: Publicar na Vercel</a>
+      <a href="#passo4">Passo 4: Jogar!</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PASSO 1 -->
+    <h2 id="passo1">📂 Passo 1: Abrir o GitHub</h2>
+    
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Acesse seu repositório "touch"</div>
+      </div>
+      <p>Vá no navegador do celular ou computador e acesse:</p>
+      <a href="https://github.com" class="big-btn big-btn-blue" target="_blank">🔗 Abrir GitHub.com</a>
+      <p>Faça login e vá no seu repositório chamado <strong>"touch"</strong>.</p>
+      <p>O endereço vai ser algo como: <code>github.com/SEU_USUARIO/touch</code></p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Clique em "Add file" → "Create new file"</div>
+      </div>
+      <p>No seu repositório, procure o botão <strong>"Add file"</strong> e clique em <strong>"Create new file"</strong>.</p>
+      <div class="screenshot-placeholder">
+        Botão "Add file" fica no topo direito da lista de arquivos<br>
+        <small>Se o repo estiver vazio, vai aparecer um link "creating a new file"</small>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PASSO 2 -->
+    <h2 id="passo2">📝 Passo 2: Criar os Arquivos</h2>
+    
+    <div class="warning">
+      <strong>Você precisa criar 10 arquivos.</strong> Para cada um: clique em "Create new file", cole o nome no topo, cole o conteúdo, e clique em "Commit". Depois repita para o próximo.
+    </div>
+
+    <h3>📁 Estrutura de pastas que você vai criar:</h3>
+    <div class="folder-tree">
+<span class="folder">📁 touch/</span>
+├── <span class="new">📄 index.html</span>
+├── <span class="new">📄 package.json</span>
+├── <span class="new">📄 tsconfig.json</span>
+├── <span class="new">📄 vite.config.js</span>
+├── <span class="folder">📁 src/</span>
+│   ├── <span class="new">📄 main.tsx</span>
+│   ├── <span class="new">📄 App.tsx</span>
+│   ├── <span class="new">📄 index.css</span>
+│   ├── <span class="folder">📁 components/</span>
+│   │   ├── <span class="new">📄 MasterMode.tsx</span>
+│   │   ├── <span class="new">📄 PlayerMode.tsx</span>
+│   │   ├── <span class="new">📄 GameScreen.tsx</span>
+│   │   └── <span class="new">📄 DemoScreen.tsx</span>
+│   ├── <span class="folder">📁 hooks/</span>
+│   │   └── <span class="new">📄 usePeer.ts</span>
+│   └── <span class="folder">📁 utils/</span>
+│       └── <span class="new">📄 sound.ts</span>
+└── <span class="folder">📁 public/</span>
+    └── <span class="new">📄 tutorial.html</span>
+    </div>
+
+    <div class="tip">
+      <strong>Dica:</strong> Para criar uma pasta no GitHub, basta digitar o nome com "/" — por exemplo: <code>src/App.tsx</code> cria automaticamente a pasta "src" com o arquivo "App.tsx" dentro.
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>📋 Arquivos para copiar (clique em "Copiar" em cada um):</h3>
+
+    <!-- ARQUIVO 1: index.html -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">index.html</span>
+          <span class="file-path"> (raiz do projeto)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file1')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file1"><!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#111827" />
+    <title>Touch - Multiplayer Reflex Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #111827; color: #ffffff; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html></div>
+    </div>
+
+    <!-- ARQUIVO 2: package.json -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">package.json</span>
+          <span class="file-path"> (raiz do projeto)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file2')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file2">{
+  "name": "touch",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3"
+  }
+}</div>
+    </div>
+
+    <!-- ARQUIVO 3: tsconfig.json -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">tsconfig.json</span>
+          <span class="file-path"> (raiz do projeto)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file3')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file3">{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}</div>
+    </div>
+
+    <!-- ARQUIVO 4: vite.config.js -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">vite.config.js</span>
+          <span class="file-path"> (raiz do projeto)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file4')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file4">import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+})</div>
+    </div>
+
+    <!-- ARQUIVO 5: src/main.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/main.tsx</span>
+          <span class="file-path"> (dentro da pasta src)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file5')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file5">import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(&lt;App /&gt;);</div>
+    </div>
+
+    <!-- ARQUIVO 6: src/index.css -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/index.css</span>
+          <span class="file-path"> (dentro da pasta src)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file6')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file6">@import "tailwindcss";
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background: #111827;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html {
+  overscroll-behavior: none;
+}</div>
+    </div>
+
+    <!-- ARQUIVO 7: src/App.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/App.tsx</span>
+          <span class="file-path"> (dentro da pasta src)</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file7')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file7">import { useState, useEffect } from 'react';
+import MasterMode from './components/MasterMode';
+import PlayerMode from './components/PlayerMode';
+import DemoScreen from './components/DemoScreen';
+
+type Screen = 'home' | 'master' | 'player' | 'join' | 'demo';
+
+function generateRoomId(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+export default function App() {
+  const [screen, setScreen] = useState<Screen>('home');
+  const [roomId, setRoomId] = useState('');
+  const [playerName, setPlayerName] = useState('');
+  const [inputRoomId, setInputRoomId] = useState('');
+  const [demoMode, setDemoMode] = useState<'tap' | 'hold'>('tap');
+
+  useEffect(() => {
+    const savedName = localStorage.getItem('touch-player-name');
+    if (savedName) setPlayerName(savedName);
+  }, []);
+
+  const handleCreateRoom = () => {
+    const newRoomId = generateRoomId();
+    setRoomId(newRoomId);
+    setScreen('master');
+  };
+
+  const handleJoinRoom = () => {
+    if (inputRoomId.trim()) {
+      setRoomId(inputRoomId.trim().toUpperCase());
+      setScreen('player');
+    }
+  };
+
+  const handleSaveName = (name: string) => {
+    setPlayerName(name);
+    localStorage.setItem('touch-player-name', name);
+  };
+
+  const handleStartDemo = (mode: 'tap' | 'hold') => {
+    setDemoMode(mode);
+    setScreen('demo');
+  };
+
+  if (screen === 'home') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-950/30 to-gray-900 flex flex-col items-center justify-center p-6">
+        <div className="mb-10 text-center">
+          <div className="relative inline-block">
+            <div className="text-7xl mb-2">👆</div>
+            <div className="absolute -inset-6 bg-purple-500/10 rounded-full blur-2xl" />
+          </div>
+          <h1 className="text-6xl font-black text-white mt-2 tracking-tight">TOUCH</h1>
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <div className="h-px w-8 bg-purple-500/50" />
+            <p className="text-purple-300/80 text-sm uppercase tracking-widest">Reflexo Multiplayer</p>
+            <div className="h-px w-8 bg-purple-500/50" />
+          </div>
+        </div>
+
+        <div className="w-full max-w-sm space-y-3">
+          <button onClick={handleCreateRoom} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-5 rounded-2xl font-bold text-lg shadow-lg hover:shadow-purple-500/40 transition-all active:scale-[0.97] flex items-center justify-center gap-3">
+            <span className="text-2xl">👑</span>
+            <span>Criar Sala (Mestre)</span>
+          </button>
+
+          <button onClick={() => setScreen('join')} className="w-full bg-gray-800/80 border-2 border-gray-700/80 text-white py-5 rounded-2xl font-bold text-lg hover:border-purple-500/50 transition-all active:scale-[0.97] flex items-center justify-center gap-3">
+            <span className="text-2xl">📱</span>
+            <span>Entrar como Jogador</span>
+          </button>
+
+          <div className="pt-2">
+            <p className="text-gray-500 text-xs text-center mb-2 uppercase tracking-wider">Ou teste sozinho</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => handleStartDemo('tap')} className="bg-gray-800/50 border border-gray-700/50 text-gray-300 py-3 rounded-xl text-sm font-medium hover:bg-gray-700/50 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <span>👆</span> Demo: Toque
+              </button>
+              <button onClick={() => handleStartDemo('hold')} className="bg-gray-800/50 border border-gray-700/50 text-gray-300 py-3 rounded-xl text-sm font-medium hover:bg-gray-700/50 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <span>👇</span> Demo: Segurar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full max-w-sm mt-8">
+          <label className="text-gray-500 text-xs mb-2 block uppercase tracking-wider">Seu nome</label>
+          <input type="text" value={playerName} onChange={(e) => handleSaveName(e.target.value)} placeholder="Digite seu nome..." className="w-full bg-gray-800/50 border border-gray-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/50 transition-colors" />
+        </div>
+
+        <div className="w-full max-w-sm mt-8 bg-gray-800/30 rounded-2xl p-5 border border-gray-700/30">
+          <h3 className="text-white font-bold mb-3 text-sm">📖 Como Jogar</h3>
+          <div className="space-y-2 text-gray-400 text-sm">
+            <p>1. Um dispositivo é o <strong className="text-white">Mestre</strong></p>
+            <p>2. Os outros entram com o <strong className="text-white">código</strong></p>
+            <p>3. O Mestre ativa: <strong className="text-red-300">luz</strong> + <strong className="text-yellow-300">som</strong></p>
+            <p>4. <strong className="text-white">Toque:</strong> toque para parar</p>
+            <p>5. <strong className="text-white">Segurar:</strong> segure 2s para parar</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'join') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-950/20 to-gray-900 flex flex-col items-center justify-center p-6">
+        <button onClick={() => setScreen('home')} className="absolute top-6 left-6 text-gray-400 hover:text-white transition-colors">
+          <i className="fas fa-arrow-left text-xl" />
+        </button>
+        <div className="w-full max-w-sm text-center">
+          <div className="text-5xl mb-4">📱</div>
+          <h2 className="text-2xl font-bold text-white mb-2">Entrar na Sala</h2>
+          <p className="text-gray-400 mb-8">Peça o código para o Mestre</p>
+          <input type="text" value={inputRoomId} onChange={(e) => setInputRoomId(e.target.value.toUpperCase())} placeholder="CÓDIGO" maxLength={6} className="w-full bg-gray-800 border-2 border-gray-700 rounded-2xl px-4 py-5 text-white text-center text-3xl font-mono tracking-[0.4em] placeholder-gray-700 focus:outline-none focus:border-purple-500 transition-colors mb-6" onKeyDown={(e) => e.key === 'Enter' && handleJoinRoom()} autoFocus />
+          <button onClick={handleJoinRoom} disabled={!inputRoomId.trim()} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-bold text-lg disabled:opacity-40 transition-all active:scale-[0.97]">
+            Entrar na Sala
+          </button>
+          {playerName && (
+            <div className="mt-6 bg-gray-800/50 rounded-xl px-4 py-3 inline-flex items-center gap-2">
+              <span className="text-gray-500 text-sm">Jogando como:</span>
+              <span className="text-purple-400 font-medium">{playerName}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'master') return <MasterMode roomId={roomId} onBack={() => setScreen('home')} />;
+  if (screen === 'player') return <PlayerMode roomId={roomId} playerName={playerName || 'Jogador'} onBack={() => setScreen('home')} />;
+  if (screen === 'demo') return <DemoScreen mode={demoMode} onBack={() => setScreen('home')} />;
+
+  return null;
+}</div>
+    </div>
+
+    <!-- ARQUIVO 8: src/utils/sound.ts -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/utils/sound.ts</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file8')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file8">let audioContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  }
+  return audioContext;
+}
+
+export function playBeep(frequency: number = 800, duration: number = 200) {
+  const ctx = getAudioContext();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  oscillator.frequency.value = frequency;
+  oscillator.type = 'sine';
+  gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration / 1000);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + duration / 1000);
+}
+
+export function playAlertSound() {
+  const frequencies = [600, 800, 1000, 800];
+  frequencies.forEach((freq, i) => {
+    setTimeout(() => playBeep(freq, 150), i * 180);
+  });
+}
+
+export function playSuccessSound() {
+  playBeep(1200, 100);
+  setTimeout(() => playBeep(1600, 200), 120);
+}
+
+export function playUrgentBeep() {
+  const ctx = getAudioContext();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  oscillator.frequency.value = 440;
+  oscillator.type = 'square';
+  gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.1);
+}
+
+export function resumeAudioContext() {
+  const ctx = getAudioContext();
+  if (ctx.state === 'suspended') ctx.resume();
+}</div>
+    </div>
+
+    <!-- ARQUIVO 9: src/hooks/usePeer.ts -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/hooks/usePeer.ts</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file9')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file9">import { useState, useEffect, useRef, useCallback } from 'react';
+import Peer, { DataConnection } from 'peerjs';
+
+export interface PeerMessage {
+  type: 'activate' | 'completed' | 'register' | 'player-list' | 'set-mode' | 'game-state';
+  payload?: any;
+}
+
+export interface PlayerInfo {
+  id: string;
+  name: string;
+  connected: boolean;
+}
+
+export function useMasterPeer(roomId: string) {
+  const [players, setPlayers] = useState&lt;PlayerInfo[]&gt;([]);
+  const [isReady, setIsReady] = useState(false);
+  const connectionsRef = useRef&lt;Map&lt;string, DataConnection&gt;&gt;(new Map());
+  const playersRef = useRef&lt;PlayerInfo[]&gt;([]);
+
+  useEffect(() => { playersRef.current = players; }, [players]);
+
+  const broadcastPlayerList = useCallback(() => {
+    const msg: PeerMessage = { type: 'player-list', payload: { players: playersRef.current } };
+    connectionsRef.current.forEach(conn => { if (conn.open) conn.send(msg); });
+  }, []);
+
+  useEffect(() => {
+    const p = new Peer(`touch-master-${roomId}`, { debug: 1 });
+    p.on('open', () => setIsReady(true));
+    p.on('connection', (conn) => {
+      conn.on('open', () => {
+        connectionsRef.current.set(conn.peer, conn);
+        conn.on('data', (data) => {
+          const msg = data as PeerMessage;
+          if (msg.type === 'register') {
+            const playerName = msg.payload?.name || `Player ${connectionsRef.current.size}`;
+            setPlayers(prev => {
+              const exists = prev.find(p => p.id === conn.peer);
+              let newList: PlayerInfo[];
+              if (exists) {
+                newList = prev.map(p => p.id === conn.peer ? { ...p, name: playerName, connected: true } : p);
+              } else {
+                newList = [...prev, { id: conn.peer, name: playerName, connected: true }];
+              }
+              playersRef.current = newList;
+              setTimeout(() => broadcastPlayerList(), 50);
+              return newList;
+            });
+          }
+        });
+        conn.on('close', () => {
+          connectionsRef.current.delete(conn.peer);
+          setPlayers(prev => {
+            const newList = prev.map(p => p.id === conn.peer ? { ...p, connected: false } : p);
+            playersRef.current = newList;
+            setTimeout(() => broadcastPlayerList(), 50);
+            return newList;
+          });
+        });
+      });
+    });
+    p.on('error', (err) => console.error('Peer error:', err));
+    return () => { p.destroy(); };
+  }, [roomId, broadcastPlayerList]);
+
+  const sendToPlayer = useCallback((playerId: string, message: PeerMessage) => {
+    const conn = connectionsRef.current.get(playerId);
+    if (conn && conn.open) { conn.send(message); return true; }
+    return false;
+  }, []);
+
+  const sendToAll = useCallback((message: PeerMessage) => {
+    connectionsRef.current.forEach(conn => { if (conn.open) conn.send(message); });
+  }, []);
+
+  return { players, isReady, sendToPlayer, sendToAll };
+}
+
+export function usePlayerPeer(roomId: string, playerName: string) {
+  const [connection, setConnection] = useState&lt;DataConnection | null&gt;(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [lastMessage, setLastMessage] = useState&lt;PeerMessage | null&gt;(null);
+  const [error, setError] = useState&lt;string | null&gt;(null);
+
+  useEffect(() => {
+    const playerId = `touch-player-${roomId}-${Math.random().toString(36).substr(2, 6)}`;
+    const p = new Peer(playerId, { debug: 1 });
+    p.on('open', () => {
+      setIsReady(true);
+      const conn = p.connect(`touch-master-${roomId}`, { reliable: true });
+      conn.on('open', () => {
+        setConnection(conn);
+        setIsConnected(true);
+        conn.send({ type: 'register', payload: { name: playerName } } as PeerMessage);
+        conn.on('data', (data) => setLastMessage(data as PeerMessage));
+        conn.on('close', () => setIsConnected(false));
+      });
+      conn.on('error', () => setError('Não foi possível conectar ao mestre'));
+    });
+    p.on('error', (err) => {
+      if (err.type === 'peer-unavailable') setError('Mestre não encontrado');
+    });
+    return () => { p.destroy(); };
+  }, [roomId, playerName]);
+
+  const sendMessage = useCallback((message: PeerMessage) => {
+    if (connection && connection.open) connection.send(message);
+  }, [connection]);
+
+  return { connection, isConnected, isReady, lastMessage, sendMessage, error };
+}</div>
+    </div>
+
+    <!-- ARQUIVO 10: src/components/GameScreen.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/components/GameScreen.tsx</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file10')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file10">import { useState, useEffect, useRef, useCallback } from 'react';
+import { playAlertSound, playSuccessSound, playUrgentBeep, resumeAudioContext } from '../utils/sound';
+
+interface GameScreenProps {
+  mode: 'tap' | 'hold';
+  isActive: boolean;
+  onComplete: () => void;
+  playerName?: string;
+}
+
+function vibrate(pattern: number | number[]) {
+  if ('vibrate' in navigator) navigator.vibrate(pattern);
+}
+
+export default function GameScreen({ mode, isActive, onComplete, playerName }: GameScreenProps) {
+  const [flashOn, setFlashOn] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
+  const [isHolding, setIsHolding] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const [waiting, setWaiting] = useState(!isActive);
+  const holdIntervalRef = useRef&lt;number | null&gt;(null);
+  const flashIntervalRef = useRef&lt;number | null&gt;(null);
+  const holdStartTimeRef = useRef&lt;number&gt;(0);
+  const beepIntervalRef = useRef&lt;number | null&gt;(null);
+  const HOLD_DURATION = 2000;
+
+  useEffect(() => {
+    if (isActive && !completed) {
+      setWaiting(false);
+      resumeAudioContext();
+      playAlertSound();
+      vibrate([200, 100, 200, 100, 400]);
+      flashIntervalRef.current = window.setInterval(() => setFlashOn(prev => !prev), 300);
+      beepIntervalRef.current = window.setInterval(() => { playUrgentBeep(); vibrate(50); }, 600);
+      return () => {
+        if (flashIntervalRef.current) clearInterval(flashIntervalRef.current);
+        if (beepIntervalRef.current) clearInterval(beepIntervalRef.current);
+      };
+    } else {
+      setFlashOn(false);
+      if (flashIntervalRef.current) clearInterval(flashIntervalRef.current);
+      if (beepIntervalRef.current) clearInterval(beepIntervalRef.current);
+    }
+  }, [isActive, completed]);
+
+  const handleComplete = useCallback(() => {
+    setCompleted(true);
+    setFlashOn(false);
+    setIsHolding(false);
+    if (flashIntervalRef.current) clearInterval(flashIntervalRef.current);
+    if (beepIntervalRef.current) clearInterval(beepIntervalRef.current);
+    if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    playSuccessSound();
+    vibrate([100, 50, 100, 50, 200]);
+    onComplete();
+  }, [onComplete]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (!isActive || completed) return;
+    resumeAudioContext();
+    if (mode === 'tap') { handleComplete(); }
+    else if (mode === 'hold') {
+      setIsHolding(true);
+      holdStartTimeRef.current = Date.now();
+      vibrate(30);
+      holdIntervalRef.current = window.setInterval(() => {
+        const elapsed = Date.now() - holdStartTimeRef.current;
+        const progress = Math.min(elapsed / HOLD_DURATION, 1);
+        setHoldProgress(progress);
+        if (progress >= 1) handleComplete();
+      }, 50);
+    }
+  }, [isActive, completed, mode, handleComplete]);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (mode === 'hold' && isHolding && holdProgress &lt; 1) {
+      setIsHolding(false);
+      setHoldProgress(0);
+      if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    }
+  }, [mode, isHolding, holdProgress]);
+
+  useEffect(() => {
+    if (!isActive) { setCompleted(false); setWaiting(true); setHoldProgress(0); setIsHolding(false); }
+  }, [isActive]);
+
+  return (
+    <div className={`fixed inset-0 flex flex-col items-center justify-center select-none transition-colors duration-75 ${waiting ? 'bg-gray-900' : completed ? 'bg-green-700' : flashOn ? 'bg-red-600' : 'bg-gray-900'}`}
+      onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}
+      onMouseDown={handleTouchStart} onMouseUp={handleTouchEnd}
+      style={{ touchAction: 'none' }}>
+      {isActive && !completed && (
+        <div className="absolute inset-0 pointer-events-none transition-opacity duration-75" style={{ background: flashOn ? 'radial-gradient(circle at center, rgba(239,68,68,0.6) 0%, transparent 70%)' : 'none' }} />
+      )}
+      <div className="relative z-10 flex flex-col items-center gap-6 px-8">
+        {waiting && (
+          <>
+            <div className="text-7xl mb-2">📱</div>
+            <h2 className="text-white text-2xl font-bold">{playerName || 'Jogador'}</h2>
+            <p className="text-gray-400 text-lg text-center">Aguardando o mestre ativar</p>
+            <div className="mt-4 flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-full">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span className="text-green-400 text-sm">Conectado</span>
+            </div>
+          </>
+        )}
+        {isActive && !completed && (
+          <>
+            <div className={`text-8xl transition-transform duration-75 ${flashOn ? 'scale-125' : 'scale-100'}`}>
+              {mode === 'tap' ? '👆' : '👇'}
+            </div>
+            <h2 className={`text-3xl font-black text-center ${flashOn ? 'text-white' : 'text-red-200'}`}>
+              {mode === 'tap' ? 'TOQUE!' : 'SEGURE!'}
+            </h2>
+            {mode === 'hold' && (
+              <div className="w-72 mt-4">
+                <div className="w-full h-5 bg-gray-800 rounded-full overflow-hidden border border-gray-700">
+                  <div className="h-full rounded-full transition-all duration-75" style={{ width: `${holdProgress * 100}%`, background: 'linear-gradient(90deg, #f59e0b, #22c55e)' }} />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+        {completed && (
+          <>
+            <div className="text-8xl animate-bounce">✅</div>
+            <h2 className="text-white text-3xl font-black">COMPLETO!</h2>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}</div>
+    </div>
+
+    <!-- ARQUIVO 11: src/components/MasterMode.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/components/MasterMode.tsx</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file11')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file11">import { useState, useCallback } from 'react';
+import { useMasterPeer, PeerMessage } from '../hooks/usePeer';
+
+interface MasterModeProps { roomId: string; onBack: () => void; }
+
+export default function MasterMode({ roomId, onBack }: MasterModeProps) {
+  const { players, isReady, sendToPlayer, sendToAll } = useMasterPeer(roomId);
+  const [mode, setMode] = useState&lt;'tap' | 'hold'&gt;('tap');
+  const [activePlayer, setActivePlayer] = useState&lt;string | null&gt;(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyRoomId = () => {
+    navigator.clipboard.writeText(roomId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleActivatePlayer = useCallback((playerId: string) => {
+    if (activePlayer && activePlayer !== playerId) {
+      sendToPlayer(activePlayer, { type: 'game-state', payload: { active: false } });
+    }
+    setActivePlayer(playerId);
+    sendToPlayer(playerId, { type: 'activate', payload: { mode } });
+  }, [mode, sendToPlayer, activePlayer]);
+
+  const handleSetMode = (newMode: 'tap' | 'hold') => {
+    setMode(newMode);
+    sendToAll({ type: 'set-mode', payload: { mode: newMode } });
+  };
+
+  const handleNextRandom = () => {
+    const connected = players.filter(p => p.connected);
+    if (connected.length === 0) return;
+    const available = connected.filter(p => p.id !== activePlayer);
+    const pool = available.length > 0 ? available : connected;
+    const random = pool[Math.floor(Math.random() * pool.length)];
+    handleActivatePlayer(random.id);
+  };
+
+  const handleDeactivateAll = () => {
+    setActivePlayer(null);
+    sendToAll({ type: 'game-state', payload: { active: false } });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white p-4">
+      <div className="flex items-center justify-between mb-6">
+        <button onClick={onBack} className="text-gray-400 hover:text-white"><i className="fas fa-arrow-left text-xl" /></button>
+        <h1 className="text-xl font-bold">👑 Mestre</h1>
+        <div className={`w-3 h-3 rounded-full ${isReady ? 'bg-green-400' : 'bg-yellow-400 animate-pulse'}`} />
+      </div>
+
+      <div className="bg-gray-800 rounded-xl p-4 mb-5">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-gray-400 text-sm">Código da Sala</span>
+          <button onClick={handleCopyRoomId} className="text-blue-400 text-sm">{copied ? '✓ Copiado!' : '📋 Copiar'}</button>
+        </div>
+        <div className="bg-gray-900 rounded-lg p-4 text-center">
+          <span className="text-3xl font-mono font-bold tracking-widest text-purple-300">{roomId}</span>
+        </div>
+      </div>
+
+      <div className="bg-gray-800 rounded-xl p-4 mb-5">
+        <h3 className="text-gray-400 text-sm mb-3">Modo de Jogo</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <button onClick={() => handleSetMode('tap')} className={`p-4 rounded-xl border-2 transition-all ${mode === 'tap' ? 'border-purple-500 bg-purple-500/20' : 'border-gray-700'}`}>
+            <div className="text-3xl mb-2">👆</div>
+            <div className="font-bold text-sm">Toque</div>
+          </button>
+          <button onClick={() => handleSetMode('hold')} className={`p-4 rounded-xl border-2 transition-all ${mode === 'hold' ? 'border-purple-500 bg-purple-500/20' : 'border-gray-700'}`}>
+            <div className="text-3xl mb-2">👇</div>
+            <div className="font-bold text-sm">Segurar</div>
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 mb-5">
+        <button onClick={handleNextRandom} disabled={players.filter(p => p.connected).length === 0} className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-bold disabled:opacity-40 active:scale-95">
+          🎲 Aleatório
+        </button>
+        <button onClick={handleDeactivateAll} className="bg-gray-700 text-white py-4 rounded-xl font-bold hover:bg-gray-600 active:scale-95">
+          ⏹ Parar
+        </button>
+      </div>
+
+      <div className="bg-gray-800 rounded-xl p-4">
+        <h3 className="text-gray-400 text-sm mb-3">Dispositivos ({players.filter(p => p.connected).length})</h3>
+        {players.length === 0 ? (
+          <div className="text-center py-8">
+            <div className="text-4xl mb-3">📡</div>
+            <p className="text-gray-500">Aguardando dispositivos...</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {players.map((player) => (
+              <button key={player.id} onClick={() => handleActivatePlayer(player.id)} disabled={!player.connected}
+                className={`w-full flex items-center justify-between p-4 rounded-lg transition-all ${activePlayer === player.id ? 'bg-red-500/20 border border-red-500' : player.connected ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 opacity-50'}`}>
+                <div className="flex items-center gap-3">
+                  <div className={`w-3 h-3 rounded-full ${player.connected ? 'bg-green-400' : 'bg-red-400'}`} />
+                  <span className="font-medium">{player.name}</span>
+                </div>
+                {activePlayer === player.id && <span className="text-red-400 text-xs animate-pulse">ATIVO</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}</div>
+    </div>
+
+    <!-- ARQUIVO 12: src/components/PlayerMode.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/components/PlayerMode.tsx</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file12')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file12">import { useState, useEffect, useCallback } from 'react';
+import { usePlayerPeer, PeerMessage } from '../hooks/usePeer';
+import GameScreen from './GameScreen';
+
+interface PlayerModeProps { roomId: string; playerName: string; onBack: () => void; }
+
+export default function PlayerMode({ roomId, playerName, onBack }: PlayerModeProps) {
+  const { isConnected, isReady, lastMessage, sendMessage, error } = usePlayerPeer(roomId, playerName);
+  const [gameMode, setGameMode] = useState&lt;'tap' | 'hold'&gt;('tap');
+  const [isActive, setIsActive] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
+
+  useEffect(() => {
+    if (!lastMessage) return;
+    if (lastMessage.type === 'activate') {
+      setIsActive(true);
+      if (lastMessage.payload?.mode) setGameMode(lastMessage.payload.mode);
+    }
+    if (lastMessage.type === 'set-mode' && lastMessage.payload?.mode) setGameMode(lastMessage.payload.mode);
+    if (lastMessage.type === 'game-state' && lastMessage.payload?.active === false) setIsActive(false);
+  }, [lastMessage]);
+
+  useEffect(() => { if (error) setConnectionError(true); }, [error]);
+
+  useEffect(() => {
+    if (!isReady) return;
+    const timeout = setTimeout(() => { if (!isConnected) setConnectionError(true); }, 8000);
+    return () => clearTimeout(timeout);
+  }, [isReady, isConnected]);
+
+  const handleGameComplete = useCallback(() => {
+    setIsActive(false);
+    sendMessage({ type: 'completed', payload: { player: playerName } });
+  }, [sendMessage, playerName]);
+
+  if (!isReady) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white">
+        <div className="animate-spin w-14 h-14 border-4 border-purple-500 border-t-transparent rounded-full" />
+        <p className="text-gray-300 mt-8 text-lg">Conectando...</p>
+        <p className="text-gray-600 text-sm mt-2 font-mono">Sala: {roomId}</p>
+      </div>
+    );
+  }
+
+  if (connectionError && !isConnected) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white p-6">
+        <div className="text-6xl mb-6">😕</div>
+        <h2 className="text-2xl font-bold mb-3">Conexão Falhou</h2>
+        <p className="text-gray-400 text-center mb-8">{error || 'Verifique o código da sala'}</p>
+        <div className="flex gap-3">
+          <button onClick={onBack} className="px-6 py-4 bg-gray-700 rounded-xl font-medium">← Voltar</button>
+          <button onClick={() => window.location.reload()} className="px-6 py-4 bg-purple-600 rounded-xl font-medium">Tentar de Novo</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      {!isActive && (
+        <button onClick={onBack} className="fixed top-4 left-4 z-50 text-white/40 bg-black/20 rounded-full w-10 h-10 flex items-center justify-center">
+          <i className="fas fa-arrow-left text-sm" />
+        </button>
+      )}
+      <GameScreen mode={gameMode} isActive={isActive} onComplete={handleGameComplete} playerName={playerName} />
+    </div>
+  );
+}</div>
+    </div>
+
+    <!-- ARQUIVO 13: src/components/DemoScreen.tsx -->
+    <div class="file-card">
+      <div class="file-header">
+        <div>
+          <span class="file-name">src/components/DemoScreen.tsx</span>
+        </div>
+        <button class="copy-btn" onclick="copyContent(this, 'file13')">📋 Copiar</button>
+      </div>
+      <div class="file-content" id="file13">import { useState, useEffect, useRef, useCallback } from 'react';
+import { playAlertSound, playSuccessSound, playUrgentBeep, resumeAudioContext } from '../utils/sound';
+
+interface DemoScreenProps { mode: 'tap' | 'hold'; onBack: () => void; }
+
+function vibrate(pattern: number | number[]) {
+  if ('vibrate' in navigator) navigator.vibrate(pattern);
+}
+
+export default function DemoScreen({ mode, onBack }: DemoScreenProps) {
+  const [isActive, setIsActive] = useState(false);
+  const [flashOn, setFlashOn] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
+  const [isHolding, setIsHolding] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const [score, setScore] = useState(0);
+  const activateTimeRef = useRef&lt;number&gt;(0);
+  const holdIntervalRef = useRef&lt;number | null&gt;(null);
+  const flashIntervalRef = useRef&lt;number | null&gt;(null);
+  const holdStartTimeRef = useRef&lt;number&gt;(0);
+  const beepIntervalRef = useRef&lt;number | null&gt;(null);
+  const timeoutRef = useRef&lt;number | null&gt;(null);
+  const HOLD_DURATION = 2000;
+
+  const scheduleActivation = useCallback(() => {
+    const delay = 2000 + Math.random() * 4000;
+    timeoutRef.current = window.setTimeout(() => {
+      setIsActive(true);
+      setCompleted(false);
+      activateTimeRef.current = Date.now();
+    }, delay);
+  }, []);
+
+  useEffect(() => { scheduleActivation(); return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }; }, [scheduleActivation]);
+
+  useEffect(() => {
+    if (isActive && !completed) {
+      resumeAudioContext(); playAlertSound(); vibrate([200, 100, 200, 100, 400]);
+      flashIntervalRef.current = window.setInterval(() => setFlashOn(prev => !prev), 300);
+      beepIntervalRef.current = window.setInterval(() => { playUrgentBeep(); vibrate(50); }, 600);
+      return () => { if (flashIntervalRef.current) clearInterval(flashIntervalRef.current); if (beepIntervalRef.current) clearInterval(beepIntervalRef.current); };
+    } else { setFlashOn(false); if (flashIntervalRef.current) clearInterval(flashIntervalRef.current); if (beepIntervalRef.current) clearInterval(beepIntervalRef.current); }
+  }, [isActive, completed]);
+
+  const handleComplete = useCallback(() => {
+    setScore(prev => prev + 1); setCompleted(true); setIsActive(false); setIsHolding(false); setHoldProgress(0);
+    if (flashIntervalRef.current) clearInterval(flashIntervalRef.current);
+    if (beepIntervalRef.current) clearInterval(beepIntervalRef.current);
+    if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    playSuccessSound(); vibrate([100, 50, 100, 50, 200]);
+    setTimeout(() => { setCompleted(false); scheduleActivation(); }, 2000);
+  }, [scheduleActivation]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (!isActive || completed) return;
+    resumeAudioContext();
+    if (mode === 'tap') handleComplete();
+    else if (mode === 'hold') {
+      setIsHolding(true); holdStartTimeRef.current = Date.now(); vibrate(30);
+      holdIntervalRef.current = window.setInterval(() => {
+        const progress = Math.min((Date.now() - holdStartTimeRef.current) / HOLD_DURATION, 1);
+        setHoldProgress(progress);
+        if (progress >= 1) handleComplete();
+      }, 50);
+    }
+  }, [isActive, completed, mode, handleComplete]);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+    e.preventDefault();
+    if (mode === 'hold' && isHolding && holdProgress &lt; 1) { setIsHolding(false); setHoldProgress(0); if (holdIntervalRef.current) clearInterval(holdIntervalRef.current); }
+  }, [mode, isHolding, holdProgress]);
+
+  return (
+    <div className={`fixed inset-0 flex flex-col items-center justify-center select-none transition-colors duration-75 ${completed ? 'bg-green-700' : isActive ? flashOn ? 'bg-red-600' : 'bg-gray-900' : 'bg-gray-900'}`}
+      onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onMouseDown={handleTouchStart} onMouseUp={handleTouchEnd} style={{ touchAction: 'none' }}>
+      <button onClick={onBack} className="fixed top-4 right-4 z-50 text-white/40 bg-black/20 rounded-full w-10 h-10 flex items-center justify-center"><i className="fas fa-times" /></button>
+      <div className="absolute top-4 left-4 z-50 bg-black/30 rounded-xl px-3 py-2"><div className="text-yellow-400 font-bold text-lg">🏆 {score}</div></div>
+      <div className="relative z-10 flex flex-col items-center gap-6 px-8">
+        {!isActive && !completed && (<><div className="text-7xl">💤</div><h2 className="text-white text-2xl font-bold">Aguardando...</h2><p className="text-gray-400">Prepare-se!</p></>)}
+        {isActive && !completed && (<><div className={`text-8xl transition-transform duration-75 ${flashOn ? 'scale-125' : 'scale-100'}`}>{mode === 'tap' ? '👆' : '👇'}</div><h2 className={`text-3xl font-black ${flashOn ? 'text-white' : 'text-red-200'}`}>{mode === 'tap' ? 'TOQUE!' : 'SEGURE!'}</h2>
+          {mode === 'hold' && <div className="w-72 mt-4"><div className="w-full h-5 bg-gray-800 rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${holdProgress*100}%`, background: 'linear-gradient(90deg, #f59e0b, #22c55e)' }} /></div></div>}
+        </>)}
+        {completed && (<><div className="text-7xl animate-bounce">✅</div><h2 className="text-white text-3xl font-black">COMPLETO!</h2><p className="text-green-200/60 text-sm">Próximo em 2s...</p></>)}
+      </div>
+    </div>
+  );
+}</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PASSO 3 -->
+    <h2 id="passo3">🚀 Passo 3: Publicar na Vercel</h2>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Acesse a Vercel</div>
+      </div>
+      <p>Depois de ter todos os arquivos no GitHub, vá na Vercel:</p>
+      <a href="https://vercel.com" class="big-btn" target="_blank">🔗 Abrir Vercel.com</a>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Faça login com GitHub</div>
+      </div>
+      <p>Clique em <strong>"Sign Up"</strong> e escolha <strong>"Continue with GitHub"</strong></p>
+      <p>Autorize o acesso ao seu GitHub.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Importe o projeto</div>
+      </div>
+      <p>Clique em <strong>"Add New..." → "Project"</strong></p>
+      <p>Procure o repositório <strong>"touch"</strong> e clique em <strong>"Import"</strong></p>
+      <p>Depois clique em <strong>"Deploy"</strong></p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Pronto! 🎉</div>
+      </div>
+      <p>Espere 1-2 minutos. A Vercel vai te dar um link tipo:</p>
+      <p><code>https://touch-abc123.vercel.app</code></p>
+      <p><strong>Esse é o link do seu jogo!</strong> Abra em vários celulares e jogue!</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PASSO 4 -->
+    <h2 id="passo4">🎮 Passo 4: Jogar!</h2>
+
+    <div class="success">
+      <strong>Agora é só jogar!</strong>
+      <p style="margin-top: 10px;">1. Abra o link no celular 1 → "Criar Sala"</p>
+      <p>2. Abra o link no celular 2 → "Entrar como Jogador" → digite o código</p>
+      <p>3. No mestre, toque no jogador para ativar a luz!</p>
+    </div>
+
+    <div class="tip">
+      <strong>Dica:</strong> Salve o link nos favoritos do celular para acessar rápido depois!
+    </div>
+
+    <div style="text-align: center; margin: 40px 0; color: #8b949e;">
+      <p>Feito com ❤️ para diversão em grupo</p>
+      <p style="font-size: 0.8em; margin-top: 5px;">TOUCH — Jogo de Reflexo Multiplayer</p>
+    </div>
+
+  </div>
+
+  <script>
+    function copyContent(btn, elementId) {
+      const el = document.getElementById(elementId);
+      const text = el.textContent;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✅ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copiar';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = '✅ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copiar';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
